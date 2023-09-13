@@ -1,4 +1,4 @@
-FROM redhat/ubi8-minimal
+FROM --platform=linux/x86_64 redhat/ubi8-minimal
 
 RUN microdnf -y install nginx
 
