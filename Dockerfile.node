@@ -4,6 +4,8 @@ RUN corepack enable
 RUN corepack prepare pnpm@latest-8 --activate
 RUN pnpm config set store-dir .pnpm-store
 RUN apk add --no-cache git
-RUN git clone https://mashanz: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@github.com/RetroSuite/core.git --depth 1 /app
+ARG GUNAME
+ARG GKEY
+RUN git clone https://$GUNAME:$GKEY@github.com/RetroSuite/core.git --depth 1 /app
 RUN pnpm i
 RUN npx tailwindcss -i ./static/app.css -o ./app.css --minify

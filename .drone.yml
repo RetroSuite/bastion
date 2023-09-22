@@ -17,11 +17,15 @@ steps:
         from_secret: docker_hub_username
       PASSWORD:
         from_secret: docker_hub_password
+      GUNAME:
+        from_secret: git_username
+      GKEY:
+        from_secret: git_key
     commands:
       - werf cr login -u $USERNAME -p $PASSWORD $REGISTRY
       - werf build bastion --repo glendmaatita/bastion --add-custom-tag latest
-      - werf build rust --repo glendmaatita/rust --add-custom-tag latest
-      - werf build node --repo glendmaatita/node --add-custom-tag latest
+      - GUNAME=$GUNAME GKEY=$GKEY werf build rust --repo glendmaatita/rust --add-custom-tag latest
+      - GUNAME=$GUNAME GKEY=$GKEY werf build node --repo glendmaatita/node --add-custom-tag latest
     volumes:
       - name: cache
         path: /home/build/.werf

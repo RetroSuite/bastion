@@ -6,6 +6,8 @@ dockerfile: Dockerfile.bastion
 ---
 image: rust
 dockerfile: Dockerfile.rust
+args: { GUNAME: $GUNAME, GKEY: $GKEY }
 ---
 image: node
 dockerfile: Dockerfile.node
+args: { GUNAME: $GUNAME, GKEY: $GKEY }
