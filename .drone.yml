@@ -21,6 +21,7 @@ steps:
       - werf cr login -u $USERNAME -p $PASSWORD $REGISTRY
       - werf build bastion --repo glendmaatita/bastion --add-custom-tag latest
       - werf build rust --repo glendmaatita/rust --add-custom-tag latest
+      - werf build node --repo glendmaatita/node --add-custom-tag latest
     volumes:
       - name: cache
         path: /home/build/.werf

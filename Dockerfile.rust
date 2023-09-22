@@ -1,8 +1,12 @@
 # Rust base
 FROM rust:bookworm AS migration_base
-
+WORKDIR /app
 RUN update-ca-certificates
 RUN apt update -y
 RUN apt install build-essential -y
 RUN apt install lld clang -y
 RUN apt install make -y
+RUN apt install sccache -y
+RUN apt install git -y
+RUN git clone https://mashanz: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@github.com/RetroSuite/core.git --depth 1 /app
+RUN RUSTC_WRAPPER=/bin/sccache cargo b -r

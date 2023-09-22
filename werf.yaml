@@ -6,3 +6,6 @@ dockerfile: Dockerfile.bastion
 ---
 image: rust
 dockerfile: Dockerfile.rust
+---
+image: node
+dockerfile: Dockerfile.node
