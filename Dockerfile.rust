@@ -1,0 +1,8 @@
+# Rust base
+FROM rust:bookworm AS migration_base
+
+RUN update-ca-certificates
+RUN apt update -y
+RUN apt install build-essential -y
+RUN apt install lld clang -y
+RUN apt install make -y

@@ -1,0 +1,35 @@
+kind: pipeline
+type: kubernetes
+name: default
+service_account_name: default
+
+steps:
+  - name: build-latest
+    image: registry.werf.io/werf/werf:1.2-stable
+    pull: if-not-exists
+    privileged: true
+    user: 0
+    group: 0
+    environment:
+      REGISTRY:
+        from_secret: docker_hub_registry_url
+      USERNAME:
+        from_secret: docker_hub_username
+      PASSWORD:
+        from_secret: docker_hub_password
+    commands:
+      - werf cr login -u $USERNAME -p $PASSWORD $REGISTRY
+      - werf build bastion --repo glendmaatita/bastion --add-custom-tag latest
+      - werf build rust --repo glendmaatita/rust --add-custom-tag latest
+    volumes:
+      - name: cache
+        path: /home/build/.werf
+    when:
+      branch:
+        - main
+
+volumes:
+  - name: cache
+    claim:
+      name: werf-cache-pvc
+      read_only: false

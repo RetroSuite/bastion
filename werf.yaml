@@ -1,0 +1,8 @@
+configVersion: 1
+project: bastion
+---
+image: bastion
+dockerfile: Dockerfile.bastion
+---
+image: rust
+dockerfile: Dockerfile.rust
