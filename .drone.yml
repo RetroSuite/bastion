@@ -73,6 +73,29 @@ steps:
       branch:
         - main
 
+  - name: notification
+    image: appleboy/drone-discord
+    privileged: true
+    user: 0
+    group: 0
+    depends_on:
+      - build-latest-bastion
+      - build-latest-node
+      - build-latest-rust
+    settings:
+      webhook_id:
+        from_secret: webhook_id
+      webhook_token:
+        from_secret: webhook_secret
+      username: DroneCI
+      avatar_url: https://cdn.discordapp.com/attachments/892612412014997557/1153503922162511892/drone-ci.png
+      message: >
+        {{#success build.status}}
+          Build **core** is *done*. Check on https://drone.dev.retrosuite.co/RetroSuite/bastion/{{build.number}} for more details.
+        {{else}}
+          Build **core** is *failed*. Check on https://drone.dev.retrosuite.co/RetroSuite/bastion/{{build.number}} for more details.
+        {{/success}}
+
 volumes:
   - name: cache
     claim:
