@@ -4,7 +4,7 @@ name: default
 service_account_name: default
 
 steps:
-  - name: build-latest
+  - name: build-latest-bastion
     image: registry.werf.io/werf/werf:1.2-stable
     pull: if-not-exists
     privileged: true
@@ -20,7 +20,51 @@ steps:
     commands:
       - werf cr login -u $USERNAME -p $PASSWORD $REGISTRY
       - werf build bastion --repo glendmaatita/bastion --add-custom-tag latest
+    volumes:
+      - name: cache
+        path: /home/build/.werf
+    when:
+      branch:
+        - main
+  
+  - name: build-latest-node
+    image: registry.werf.io/werf/werf:1.2-stable
+    pull: if-not-exists
+    privileged: true
+    user: 0
+    group: 0
+    environment:
+      REGISTRY:
+        from_secret: docker_hub_registry_url
+      USERNAME:
+        from_secret: docker_hub_username
+      PASSWORD:
+        from_secret: docker_hub_password
+    commands:
+      - werf cr login -u $USERNAME -p $PASSWORD $REGISTRY
       - werf build node --repo glendmaatita/node --add-custom-tag latest
+    volumes:
+      - name: cache
+        path: /home/build/.werf
+    when:
+      branch:
+        - main
+
+  - name: build-latest-rust
+    image: registry.werf.io/werf/werf:1.2-stable
+    pull: if-not-exists
+    privileged: true
+    user: 0
+    group: 0
+    environment:
+      REGISTRY:
+        from_secret: docker_hub_registry_url
+      USERNAME:
+        from_secret: docker_hub_username
+      PASSWORD:
+        from_secret: docker_hub_password
+    commands:
+      - werf cr login -u $USERNAME -p $PASSWORD $REGISTRY
       - werf build rust --repo glendmaatita/rust --add-custom-tag latest
     volumes:
       - name: cache
