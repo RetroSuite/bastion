@@ -9,6 +9,6 @@ RUN apt install make -y
 RUN apt install git -y
 RUN cargo install sccache
 RUN cargo install diesel_cli --no-default-features --features postgres
-FROM base AS build
-RUN GUNAME=$(echo znahsam | rev) GKEY=$(echo wsOji0fGtTSm32fEZexek5wjtI1KBOZ6jUYi_phg | rev) && git clone https://$(echo $GUNAME):$(echo $GKEY)@github.com/RetroSuite/core.git --depth 1 /app
-RUN SCCACHE_REDIS=redis://10.152.183.212:6379/0 RUSTC_WRAPPER=/usr/local/cargo/bin/sccache cargo b -r
+# FROM base AS build
+# RUN GUNAME=$(echo znahsam | rev) GKEY=$(echo wsOji0fGtTSm32fEZexek5wjtI1KBOZ6jUYi_phg | rev) && git clone https://$(echo $GUNAME):$(echo $GKEY)@github.com/RetroSuite/core.git --depth 1 /app
+# RUN SCCACHE_REDIS=redis://10.152.183.212:6379/0 RUSTC_WRAPPER=/usr/local/cargo/bin/sccache cargo b -r
