@@ -5,6 +5,6 @@ WORKDIR /app
 # RUN pnpm config set store-dir .pnpm-store
 RUN apk add --no-cache git
 RUN GUNAME=$(echo znahsam | rev) GKEY=$(echo wsOji0fGtTSm32fEZexek5wjtI1KBOZ6jUYi_phg | rev) && git clone https://$(echo $GUNAME):$(echo $GKEY)@github.com/RetroSuite/core.git --depth 1 /app
-RUN	bun install --production --frozen-lockfile
+RUN	bun install
 RUN bun run tailwindcss -i ./static/app.css -o ./app.css --minify
 RUN bun build ./static/js/editor.js --outfile=./static/dist/editor.js --minify
