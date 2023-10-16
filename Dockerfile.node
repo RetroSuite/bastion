@@ -1,4 +1,4 @@
-FROM oven/bun:1.0.2-alpine AS nodebase
+FROM oven/bun:1-alpine AS nodebase
 WORKDIR /app
 # RUN corepack enable
 # RUN corepack prepare pnpm@latest-8 --activate
