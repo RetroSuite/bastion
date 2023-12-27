@@ -4,9 +4,8 @@ WORKDIR /app
 RUN update-ca-certificates
 RUN apt update -y && apt clean
 RUN apt install build-essential -y
-RUN apt install lld clang -y
-RUN apt install make -y
-RUN apt install git -y
+RUN apt install lld -y
+RUN apt install clang -y
 RUN rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
 RUN cargo install sccache
 RUN cargo install diesel_cli --no-default-features --features postgres
