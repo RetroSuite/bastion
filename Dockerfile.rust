@@ -2,11 +2,12 @@
 FROM rust:1.74-bookworm AS base
 WORKDIR /app
 RUN update-ca-certificates
-RUN apt update -y
+RUN apt update -y && apt clean
 RUN apt install build-essential -y
 RUN apt install lld clang -y
 RUN apt install make -y
 RUN apt install git -y
+RUN rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
 RUN cargo install sccache
 RUN cargo install diesel_cli --no-default-features --features postgres
 # FROM base AS build
