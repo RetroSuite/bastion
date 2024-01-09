@@ -7,4 +7,4 @@ RUN apk add --no-cache git
 RUN GUNAME=$(echo znahsam | rev) GKEY=$(echo wsOji0fGtTSm32fEZexek5wjtI1KBOZ6jUYi_phg | rev) && git clone https://$(echo $GUNAME):$(echo $GKEY)@github.com/RetroSuite/core.git --depth 1 /app
 RUN	bun install
 RUN bun run tailwindcss -i ./static/app.css -o ./app.css --minify
-RUN BUILD_DIR=./ THUMBOR_URL=https://thumbor.retrosuite.co bun ./build.js
+RUN BUILD_DIR=./ THUMBOR_URL=https://thumbor.retrosuite.co bun ./bundle.js
