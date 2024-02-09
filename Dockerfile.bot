@@ -1,0 +1,15 @@
+FROM --platform=linux/amd64 redhat/ubi8
+
+RUN dnf update -y
+RUN dnf install -y curl git python3 make gcc-c++ openssl-devel krb5-libs && \
+	ln -s $(which python3) /usr/local/bin/python
+
+RUN dnf install -y https://rpm.nodesource.com/pub_18.x/nodistro/repo/nodesource-release-nodistro-1.noarch.rpm --nogpgcheck
+RUN dnf install -y nodejs --setopt=nodesource-nodejs.module_hotfixes=1 --nogpgcheck
+
+WORKDIR /opt/app
+
+# install kubectl
+RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+RUN chmod +x kubectl
+RUN mv kubectl /usr/local/bin/kubectl

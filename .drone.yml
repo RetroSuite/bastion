@@ -88,6 +88,23 @@ steps:
       branch:
         - main
 
+  - name: build-latest-bot
+    image: plugins/kaniko
+    pull: if-not-exists
+    settings:
+      username:
+        from_secret: docker_hub_username
+      password:
+        from_secret: docker_hub_password
+      registry:
+        from_secret: docker_hub_registry_url
+      repo: glendmaatita/bot
+      tags: latest
+      dockerfile: Dockerfile.bot
+    when:
+      branch:
+        - main
+
   - name: notification
     image: appleboy/drone-discord
     depends_on:
