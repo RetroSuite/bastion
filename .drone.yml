@@ -1,83 +1,95 @@
 kind: pipeline
 type: kubernetes
 name: default
-service_account_name: default
 
 steps:
   - name: build-latest-bastion
-    image: registry.werf.io/werf/werf:1.2-stable
+    image: plugins/kaniko
     pull: if-not-exists
-    privileged: true
-    user: 0
-    group: 0
-    environment:
-      REGISTRY:
-        from_secret: docker_hub_registry_url
-      USERNAME:
+    settings:
+      username:
         from_secret: docker_hub_username
-      PASSWORD:
+      password:
         from_secret: docker_hub_password
-    commands:
-      - werf cr login -u $USERNAME -p $PASSWORD $REGISTRY
-      - werf build bastion --repo glendmaatita/bastion --add-custom-tag latest
-    volumes:
-      - name: cache
-        path: /home/build/.werf
+      registry:
+        from_secret: docker_hub_registry_url
+      repo: glendmaatita/bastion
+      tags: latest
+      dockerfile: Dockerfile.bastion
     when:
       branch:
         - main
   
   - name: build-latest-node
-    image: registry.werf.io/werf/werf:1.2-stable
+    image: plugins/kaniko
     pull: if-not-exists
-    privileged: true
-    user: 0
-    group: 0
-    environment:
-      REGISTRY:
-        from_secret: docker_hub_registry_url
-      USERNAME:
+    settings:
+      username:
         from_secret: docker_hub_username
-      PASSWORD:
+      password:
         from_secret: docker_hub_password
-    commands:
-      - werf cr login -u $USERNAME -p $PASSWORD $REGISTRY
-      - werf build node --repo glendmaatita/node --add-custom-tag latest
-    volumes:
-      - name: cache
-        path: /home/build/.werf
+      registry:
+        from_secret: docker_hub_registry_url
+      repo: glendmaatita/node
+      tags: latest
+      dockerfile: Dockerfile.node
     when:
       branch:
         - main
 
   - name: build-latest-rust
-    image: registry.werf.io/werf/werf:1.2-stable
+    image: plugins/kaniko
     pull: if-not-exists
-    privileged: true
-    user: 0
-    group: 0
-    environment:
-      REGISTRY:
-        from_secret: docker_hub_registry_url
-      USERNAME:
+    settings:
+      username:
         from_secret: docker_hub_username
-      PASSWORD:
+      password:
         from_secret: docker_hub_password
-    commands:
-      - werf cr login -u $USERNAME -p $PASSWORD $REGISTRY
-      - werf build rust --repo glendmaatita/rust --add-custom-tag latest
-    volumes:
-      - name: cache
-        path: /home/build/.werf
+      registry:
+        from_secret: docker_hub_registry_url
+      repo: glendmaatita/rust
+      tags: latest
+      dockerfile: Dockerfile.rust
+    when:
+      branch:
+        - main
+  
+  - name: build-latest-php
+    image: plugins/kaniko
+    pull: if-not-exists
+    settings:
+      username:
+        from_secret: docker_hub_username
+      password:
+        from_secret: docker_hub_password
+      registry:
+        from_secret: docker_hub_registry_url
+      repo: glendmaatita/phpbase
+      tags: latest
+      dockerfile: Dockerfile.php
+    when:
+      branch:
+        - main
+    
+  - name: build-latest-php
+    image: plugins/kaniko
+    pull: if-not-exists
+    settings:
+      username:
+        from_secret: docker_hub_username
+      password:
+        from_secret: docker_hub_password
+      registry:
+        from_secret: docker_hub_registry_url
+      repo: glendmaatita/basenode
+      tags: latest
+      dockerfile: Dockerfile.basenode
     when:
       branch:
         - main
 
   - name: notification
     image: appleboy/drone-discord
-    privileged: true
-    user: 0
-    group: 0
     depends_on:
       - build-latest-bastion
       - build-latest-node
