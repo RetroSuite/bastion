@@ -71,7 +71,7 @@ steps:
       branch:
         - main
     
-  - name: build-latest-php
+  - name: build-latest-basenode
     image: plugins/kaniko
     pull: if-not-exists
     settings:
